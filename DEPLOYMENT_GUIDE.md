@@ -149,9 +149,16 @@ sudo docker-compose up --build
 ```
 
 Access it at:
+- Now your app will be running at:
 ```
 http://<YOUR_EC2_PUBLIC_IP>
+
+http://<your-ec2-ip>:8123  ✅ if using 8123
+http://<your-ec2-ip>       ✅ if using port 80
+
 ```
+
+
 
 ---
 
