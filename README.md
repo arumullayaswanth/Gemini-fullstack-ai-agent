@@ -74,7 +74,7 @@ Gemini-fullstack-ai-agent/
 ├── app.png                         # Screenshot / UI image
 └── README.md                       # Main project description
 
-
+```
 ---
 
 
