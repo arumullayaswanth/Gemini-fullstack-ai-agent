@@ -1,5 +1,7 @@
 
-# 🚀 Fullstack Gemini AI Agent Deployment Guide on AWS (Beginner-Friendly)
+
+# 🚀 Full Deployment Guide for Gemini Fullstack AI Agent on AWS
+
 
 This guide will walk you through **step-by-step** to deploy the [Gemini Fullstack AI Agent](https://github.com/arumullayaswanth/Gemini-fullstack-ai-agent) on an **AWS EC2 instance** using **Docker**.
 
@@ -13,6 +15,13 @@ This guide will walk you through **step-by-step** to deploy the [Gemini Fullstac
 | ✅ GitHub Repo | Clone: `https://github.com/arumullayaswanth/Gemini-fullstack-ai-agent` |
 | ✅ Gemini API Key | Get from [Google AI Studio](https://aistudio.google.com/app/apikey) |
 | ✅ Terminal or CMD | To run SSH and commands |
+
+## 🧰 Tools Required
+- AWS EC2 (Ubuntu 22.04)
+- Docker & Docker Compose
+- GitHub
+- Gemini API Key (from Google AI Studio)
+- (Optional) LangSmith API Key
 
 ---
 
@@ -30,30 +39,40 @@ This guide will walk you through **step-by-step** to deploy the [Gemini Fullstac
 
 ---
 
-## 🖥️ Step 2: Connect to EC2
 
-1. Find **IPv4 Public IP** from EC2 dashboard
-2. In terminal:
+## 1️⃣ Set Up AWS EC2 Instance
 
+### 1.1 Create an EC2 Instance
+- Go to AWS Console → EC2 → Launch Instance
+- Choose **Ubuntu 22.04**
+- Name it e.g. `gemini-ai-server`
+- Instance Type: `t2.micro` (free tier)
+- Create or use an existing key pair (`.pem` file)
+- Allow inbound ports:
+  - `22` for SSH
+  - `8123` for Backend API
+  - `80` (optional for frontend)
+  - `5433` (optional for PostgreSQL)
+- Launch the instance
+
+### 1.2 Connect via SSH
 ```bash
-chmod 400 gemini-key.pem
-ssh -i "gemini-key.pem" ubuntu@<YOUR_EC2_PUBLIC_IP>
+chmod 400 gemini-ai-server.pem
+ssh -i "gemini-ai-server.pem" ubuntu@<YOUR_EC2_PUBLIC_IP>
 ```
-
-✅ You are now connected to your cloud server.
 
 ---
 
-## ⚙️ Step 3: Install Software (Docker + Git)
+## 2️⃣ Install Required Tools
 
 ```bash
 sudo apt update
-sudo apt install -y docker.io docker-compose git screen
+sudo apt install -y docker.io docker-compose git
 ```
 
 ---
 
-## 📁 Step 4: Clone Your Project
+## 3️⃣ Clone Your GitHub Repo
 
 ```bash
 git clone https://github.com/arumullayaswanth/Gemini-fullstack-ai-agent.git
@@ -62,46 +81,79 @@ cd Gemini-fullstack-ai-agent
 
 ---
 
-## 🔐 Step 5: Add Gemini API Key
+## 4️⃣ Create Environment Variables File
+
+Create a `.env` file in the root directory:
 
 ```bash
 cd backend
-cp .env.example .env
 nano .env
 ```
 
-In `.env`, add:
+Paste your keys:
 
 ```env
-GEMINI_API_KEY=your_gemini_api_key_here
+GEMINI_API_KEY=your_gemini_api_key
+LANGSMITH_API_KEY=your_langsmith_api_key  # optional
 ```
 
-Save and exit (CTRL + X → Y → ENTER)
+Save and exit (`CTRL+O`, `Enter`, `CTRL+X`).
 
 ---
 
-## 🐳 Step 6: Build & Run App in Docker
+## 5️⃣ Run Docker Compose
 
-Go back to root folder:
+Build and start containers:
 
 ```bash
 cd ..
-docker-compose up --build
+sudo docker-compose up --build
 ```
-
-Wait until it finishes. It may take a few minutes.
+- Wait until it finishes. It may take a few minutes.
+This will:
+- Start Redis
+- Start PostgreSQL
+- Start your backend app on port 8123
 
 ---
 
-## 🌍 Step 7: Access Your Deployed App
+## 6️⃣ Check the App
 
-Open your browser and go to:
+In your browser, go to:
 
 ```
-http://<YOUR_EC2_PUBLIC_IP>:8123/app
+http://<YOUR_EC2_PUBLIC_IP>:8123
 ```
 
-You should see your working app.
+You should see the backend running.
+
+---
+
+## 7️⃣ (Optional) Run Frontend
+
+If you want to serve the React frontend too:
+
+### Add this to `docker-compose.yml`:
+```yaml
+  frontend:
+    build: ./frontend
+    ports:
+      - "80:3000"
+    depends_on:
+      - langgraph-api
+```
+
+Then rebuild and run:
+```bash
+sudo docker-compose up --build
+```
+
+Access it at:
+```
+http://<YOUR_EC2_PUBLIC_IP>
+```
+
+---
 
 ---
 
@@ -131,42 +183,25 @@ screen -r
 
 ---
 
-## ✅ Summary of Commands
+## ✅ Summary
 
-```bash
-ssh -i "gemini-key.pem" ubuntu@<EC2_IP>
-sudo apt update
-sudo apt install -y docker.io docker-compose git screen
-
-git clone https://github.com/arumullayaswanth/Gemini-fullstack-ai-agent.git
-cd Gemini-fullstack-ai-agent
-
-cd backend
-cp .env.example .env
-nano .env  # paste GEMINI_API_KEY
-cd ..
-
-docker-compose up --build
-```
+| Step | Task |
+|------|------|
+| 1 | Launch EC2 & open ports |
+| 2 | SSH & install Docker |
+| 3 | Clone repo |
+| 4 | Create `.env` |
+| 5 | Run app using Docker Compose |
+| 6 | Visit app in browser |
+| 7 | Add frontend (optional) |
 
 ---
 
-## ✅ Final Notes
-
-- Your app runs at: `http://<EC2_IP>:8123/app`
-- Make sure your firewall allows port `8123`
-- To stop app: `docker-compose down`
-- To restart: `docker-compose up --build`
+## 🔑 Tips
+- Your PostgreSQL DB is automatically created by Docker.
+- You **don’t need** to manually create tables unless your code requires it.
+- LangSmith API Key is optional (for tracing/debugging AI flows).
 
 ---
 
-## 🧠 Want More?
-
-- Custom domain name? Use Route 53 or Cloudflare
-- HTTPS (SSL)? Install NGINX + Certbot
-- CI/CD Pipeline? Use GitHub Actions + ECR + ECS
-- Monitoring? Use AWS CloudWatch
-
----
-
-**Created with ❤️ for beginners**
+Made with ❤️ to help beginners succeed.
