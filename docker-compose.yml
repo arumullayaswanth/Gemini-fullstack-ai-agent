@@ -51,14 +51,4 @@ services:
       REDIS_URI: redis://langgraph-redis:6379
       POSTGRES_URI: postgres://postgres:postgres@langgraph-postgres:5432/postgres?sslmode=disable
       GEMINI_API_KEY: ${GEMINI_API_KEY}
-      LANGSMITH_API_KEY: ""  # disables license check
 
-  langgraph-frontend:
-    container_name: langgraph-frontend
-    build:
-      context: ./frontend
-      dockerfile: Dockerfile
-    ports:
-      - "80:3000"
-    depends_on:
-      - langgraph-api
