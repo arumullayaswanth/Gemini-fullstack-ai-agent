@@ -74,6 +74,19 @@ Gemini-fullstack-ai-agent/
 ├── app.png                         # Screenshot / UI image
 └── README.md                       # Main project description
 
+🏗️ Project Structure (Frontend + Backend)
+
+.
+├── backend                # Python AI agent with LangGraph & FastAPI
+│   └── src/agent         # Main logic of the AI agent
+├── frontend              # React + Vite frontend UI
+├── docker-compose.yml    # To run full app with DBs using Docker
+├── Dockerfile            # Builds frontend & backend in one image
+├── .env                  # For API keys like GEMINI_API_KEY
+
+
+
+
 ```
 # docker-compose.yml
 ```lua
