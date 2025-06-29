@@ -1,6 +1,9 @@
+version: "3.9"
+
 volumes:
   langgraph-data:
     driver: local
+
 services:
   langgraph-redis:
     image: docker.io/redis:6
@@ -10,6 +13,7 @@ services:
       interval: 5s
       timeout: 1s
       retries: 5
+
   langgraph-postgres:
     image: docker.io/postgres:16
     container_name: langgraph-postgres
@@ -27,11 +31,12 @@ services:
       timeout: 1s
       retries: 5
       interval: 5s
+
   langgraph-api:
-  build:
-    context: .
-    dockerfile: Dockerfile
-  image: gemini-fullstack-langgraph
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: gemini-fullstack-langgraph
     container_name: langgraph-api
     ports:
       - "8123:8000"
@@ -47,13 +52,17 @@ services:
       POSTGRES_URI: postgres://postgres:postgres@langgraph-postgres:5432/postgres?sslmode=disable
 
 
+
+
+
 # frontend:
- #   container_name: langgraph-frontend
-  #  build:
-   #   context: ./frontend
-    #  dockerfile: Dockerfile
-    #ports:
-     # - "80:3000"
-    #depends_on:
-     # - langgraph-api
+#   container_name: langgraph-frontend
+#   build:
+#     context: ./frontend
+#     dockerfile: Dockerfile
+#   ports:
+#     - "80:3000"
+#   depends_on:
+#     - langgraph-api
+
       
