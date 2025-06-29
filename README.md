@@ -75,6 +75,21 @@ Gemini-fullstack-ai-agent/
 └── README.md                       # Main project description
 
 ```
+# docker-compose.yml
+```lua
++--------------------+            +-------------------+
+|  Frontend (React)  |  <--->     |  Backend API      |
+|     (Port 3000)    |            |  (Port 8000 / 8123)|
++--------------------+            +-------------------+
+                                        |
+                           +------------+------------+
+                           |                         |
+                     +-----------+           +---------------+
+                     |  Redis    |           |   PostgreSQL  |
+                     | (Cache)   |           |   (Database)  |
+                     +-----------+           +---------------+
+
+```
 ---
 
 
