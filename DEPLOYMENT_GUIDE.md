@@ -170,6 +170,130 @@ http://<your-ec2-ip>       ✅ if using port 80
 
 ---
 
+# Docker Container Verification Guide for Gemini Fullstack AI Agent
+
+This guide helps you verify that your Docker containers are running correctly after deployment.
+
+---
+
+## 🚀 Step 1: Run Your Docker Compose
+
+```bash
+docker compose up --build
+```
+
+This command builds and starts all containers defined in your `docker-compose.yml`.
+
+---
+
+## ✅ Step 2: Verify Running Containers
+
+### Show All Running Containers:
+
+```bash
+docker ps
+```
+
+**Expected Output Example:**
+
+```
+CONTAINER ID   IMAGE                           NAMES                  STATUS          PORTS
+abc123456789   gemini-fullstack-langgraph      langgraph-api          Up 20 seconds   0.0.0.0:8123->8000/tcp
+def234567890   redis:6                         langgraph-redis        Up 20 seconds   6379/tcp
+ghi345678901   postgres:16                     langgraph-postgres     Up 20 seconds   5433->5432/tcp
+jkl456789012   langgraph-frontend              langgraph-frontend     Up 20 seconds   0.0.0.0:80->3000/tcp
+```
+
+### Show All Containers (Running + Stopped):
+
+```bash
+docker ps -a
+```
+
+---
+
+## 🧪 Step 3: Check Service Health and Status
+
+```bash
+docker compose ps
+```
+
+**Output Example:**
+
+```
+NAME                SERVICE             STATUS              PORTS
+langgraph-api       langgraph-api       running (healthy)   8123/tcp
+langgraph-frontend  frontend            running (healthy)   80/tcp
+langgraph-redis     langgraph-redis     running             6379/tcp
+langgraph-postgres  langgraph-postgres  running             5433->5432/tcp
+```
+
+---
+
+## 📜 Step 4: View Logs for Each Container
+
+### Backend (API):
+
+```bash
+docker logs langgraph-api
+```
+
+### Frontend:
+
+```bash
+docker logs langgraph-frontend
+```
+
+### Redis:
+
+```bash
+docker logs langgraph-redis
+```
+
+### Postgres:
+
+```bash
+docker logs langgraph-postgres
+```
+
+---
+
+## 🐚 Step 5: Enter Container Shell (for Debugging)
+
+### Example: Enter backend container:
+
+```bash
+docker exec -it langgraph-api /bin/sh
+```
+
+### Or with bash (if available):
+
+```bash
+docker exec -it langgraph-api bash
+```
+
+---
+
+## 🌐 Step 6: Test in Browser
+
+Assuming your EC2 public IP is `http://your-ec2-ip`:
+
+* **Frontend:** [http://your-ec2-ip](http://your-ec2-ip)
+* **Backend API:** [http://your-ec2-ip:8123](http://your-ec2-ip:8123)
+
+---
+
+## 📌 Notes
+
+* Make sure ports 80 and 8123 are **open in EC2 security group**.
+* Replace `your-ec2-ip` with the actual public IP of your AWS EC2 instance.
+* Ensure environment variables like `GEMINI_API_KEY` and `LANGSMITH_API_KEY` are defined in a `.env` file or passed before running.
+
+---
+
+You're all set to monitor and debug your fullstack AI app using Docker Compose! ✅
+
+
 ---
 
 ## 🎯 Step 8 (Optional): Keep It Running After Exit
