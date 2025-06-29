@@ -66,8 +66,16 @@ ssh -i "gemini-ai-server.pem" ubuntu@<YOUR_EC2_PUBLIC_IP>
 ## 2️⃣ Install Required Tools
 
 ```bash
-sudo apt update
-sudo apt install -y docker.io docker-compose git
+
+sudo apt update && sudo apt upgrade -y
+curl -fsSL https://get.docker.com -o get-docker.sh
+sudo sh get-docker.sh
+docker --version
+sudo apt install docker-compose-plugin -y
+docker compose version
+sudo apt install git -y
+git --version
+
 ```
 
 ---
