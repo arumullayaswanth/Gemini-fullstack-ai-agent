@@ -1,4 +1,5 @@
 # 📁 Project Folder Structure (Gemini Fullstack AI Agent)
+
 ```graphql
 
 Gemini-fullstack-ai-agent/
@@ -101,6 +102,22 @@ Gemini-fullstack-ai-agent/
                      |  Redis    |           |   PostgreSQL  |
                      | (Cache)   |           |   (Database)  |
                      +-----------+           +---------------+
+
+
++-------------+       +----------------+       +----------------+
+|   Frontend  | <---> |    Backend     | <---> | Gemini + Tools |
+| (React, Vite)|       | (LangGraph AI) |       |  (API + Agents)|
++-------------+       +----------------+       +----------------+
+
+```
+# ✅ How It Works: Simple Flow
+```txt
+User → Frontend (React) → Backend (FastAPI) → Gemini API
+                                 ↓
+                            PostgreSQL + Redis
+                                 ↓
+                             Return Result
+
 
 ```
 ---
