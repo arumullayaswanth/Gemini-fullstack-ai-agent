@@ -9,7 +9,7 @@ services:
     image: docker.io/redis:6
     container_name: langgraph-redis
     healthcheck:
-      test: redis-cli ping
+      test: ["CMD", "redis-cli", "ping"]
       interval: 5s
       timeout: 1s
       retries: 5
@@ -26,7 +26,7 @@ services:
     volumes:
       - langgraph-data:/var/lib/postgresql/data
     healthcheck:
-      test: pg_isready -U postgres
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
       start_period: 10s
       timeout: 1s
       retries: 5
@@ -36,7 +36,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    # image: gemini-fullstack-langgraph  # optional: remove if not pushing to registry
+    # image: gemini-fullstack-langgraph
     container_name: langgraph-api
     ports:
       - "8123:8000"
@@ -51,15 +51,14 @@ services:
       REDIS_URI: redis://langgraph-redis:6379
       POSTGRES_URI: postgres://postgres:postgres@langgraph-postgres:5432/postgres?sslmode=disable
       GEMINI_API_KEY: ${GEMINI_API_KEY}
-      LANGSMITH_API_KEY: "" # 👈 Set as empty to disable license validation
+      LANGSMITH_API_KEY: ""  # disables license check
 
-# Optional frontend container
- langgraph-frontend:
-   container_name: langgraph-frontend
-   build:
-     context: ./frontend
-     dockerfile: Dockerfile
-   ports:
-     - "80:3000"
-   depends_on:
-     - langgraph-api
+  langgraph-frontend:
+    container_name: langgraph-frontend
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    ports:
+      - "80:3000"
+    depends_on:
+      - langgraph-api
