@@ -1,3 +1,83 @@
+# 📁 Project Folder Structure (Gemini Fullstack AI Agent)
+```graphql
+
+Gemini-fullstack-ai-agent/
+│
+├── backend/                         # 🧠 AI agent backend (LangGraph + Python)
+│   ├── examples/
+│   │   └── cli_research.py         # Example script for agent in CLI
+│   │
+│   ├── src/agent/                  # Core AI agent logic and components
+│   │   ├── __init__.py             # Python package file
+│   │   ├── app.py                  # LangGraph entry (builds the graph)
+│   │   ├── configuration.py        # Loads API keys & configs
+│   │   ├── graph.py                # Creates the agent's logic graph
+│   │   ├── prompts.py              # Prompt templates for Gemini/OpenAI
+│   │   ├── state.py                # Defines agent memory/state
+│   │   ├── tools_and_schemas.py    # Tools the agent can use (files, search, etc.)
+│   │   └── utils.py                # Helper functions
+│   │
+│   ├── app.py                      # Starts the agent (entry point)
+│   ├── configuration.py            # Redundant? Same as above (review)
+│   ├── graph.py                    # Possibly a copy — used for CLI/test
+│   ├── test-agent.ipynb            # Notebook to test agent manually
+│   ├── Makefile                    # Shortcut commands (e.g., `make run`)
+│   ├── langgraph.json              # LangGraph config file
+│   ├── LICENSE                     # Open-source license (MIT, etc.)
+│   ├── pyproject.toml              # Python dependencies & project info
+│   └── README.md                   # Optional backend-only readme
+│
+├── frontend/                       # 🌐 Frontend UI (React + Tailwind + Vite)
+│   ├── public/
+│   │   └── vite.svg                # Vite logo / public asset
+│   │
+│   ├── src/                        # App source code
+│   │   ├── components/             # Shared UI parts
+│   │   │   ├── ActivityTimeline.tsx
+│   │   │   ├── ChatMessagesView.tsx
+│   │   │   ├── InputForm.tsx
+│   │   │   ├── WelcomeScreen.tsx
+│   │   │
+│   │   ├── ui/                     # Reusable UI elements (design system)
+│   │   │   ├── badge.tsx
+│   │   │   ├── button.tsx
+│   │   │   ├── card.tsx
+│   │   │   ├── input.tsx
+│   │   │   ├── scroll-area.tsx
+│   │   │   ├── select.tsx
+│   │   │   ├── tabs.tsx
+│   │   │   └── textarea.tsx
+│   │   │
+│   │   ├── lib/
+│   │   │   └── utils.ts            # Frontend utility functions
+│   │   │
+│   │   ├── App.tsx                 # Main routing/app structure
+│   │   ├── global.css              # App-wide styles (Tailwind)
+│   │   ├── main.tsx                # Entry point for React
+│   │   └── vite-env.d.ts           # Type support for Vite
+│   │
+│   ├── components.json             # Possibly used for component registry
+│   ├── index.html                  # HTML template file
+│   ├── package.json                # NPM dependencies
+│   ├── package-lock.json           # NPM lock file
+│   ├── tsconfig.json               # TypeScript config
+│   ├── tsconfig.node.json          # Node-specific TS config
+│   ├── vite.config.ts              # Vite build configuration
+│   ├── eslint.config.js            # Linting rules
+│   └── README.md                   # Optional frontend-only readme
+│
+├── docker-compose.yml              # 🐳 Runs backend + frontend together
+├── Dockerfile                      # Backend Docker config (Python)
+├── Makefile                        # Top-level task shortcuts
+├── DEPLOYMENT_GUIDE.md             # ✅ AWS deployment steps (we created this!)
+├── agent.png                       # Screenshot / UI image
+├── app.png                         # Screenshot / UI image
+└── README.md                       # Main project description
+
+
+---
+
+
 # Gemini Fullstack LangGraph Quickstart
 
 This project demonstrates a fullstack application using a React frontend and a LangGraph-powered backend agent. The agent is designed to perform comprehensive research on a user's query by dynamically generating search terms, querying the web using Google Search, reflecting on the results to identify knowledge gaps, and iteratively refining its search until it can provide a well-supported answer with citations. This application serves as an example of building research-augmented conversational AI using LangGraph and Google's Gemini models.
