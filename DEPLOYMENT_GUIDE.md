@@ -72,6 +72,7 @@ curl -fsSL https://get.docker.com -o get-docker.sh
 sudo sh get-docker.sh
 docker --version
 sudo apt install docker-compose-plugin -y
+sudo apt install docker-compose-plugin
 docker compose version
 sudo apt install git -y
 git --version
